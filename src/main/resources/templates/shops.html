@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="fragments/fragments::head">head</th:block>
+</head>
+
+<body>
+<div id="wrapper">
+    <th:block th:replace="fragments/fragments::sidebar-wrapper">sidebar-wrapper</th:block>
+
+    <th:block th:replace="fragments/fragments::menu">menu</th:block>
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <table class="table table-dark table-hover" id="shopTable">
+                <thead>
+                <tr>
+                    <th width="80%" scope="col">Название</th>
+                    <th width="20%" scope="col">Pr</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="shop : ${shops}" th:href="'shop/update/' + ${shop.id}">
+                    <td th:text="${shop.name}"></td>
+                    <td th:text="${shop.priority}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <button type="button" value="1" class="btn btn-dark btn-block btn-lg" id="paginationButton">Ещё</button>
+        </div>
+    </div>
+    <!-- /Page content -->
+</div>
+
+<th:block th:replace="fragments/fragments::footscript">footscript</th:block>
+</body>
+</html>
