@@ -17,14 +17,16 @@
             <table class="table table-dark table-hover" id="shopTable">
                 <thead>
                 <tr>
+                    <th>#</th>
                     <th width="80%" scope="col">Название</th>
                     <th width="20%" scope="col">Pr</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="shop : ${shops}" th:href="'shop/update/' + ${shop.id}">
-                    <td th:text="${shop.name}"></td>
-                    <td th:text="${shop.priority}"></td>
+                <tr th:each="shop,i : ${shops}" th:href="'shop/update/' + ${shop.id}">
+                    <td id="index" th:text="${i.index + 1}"></td>
+                    <td id="name" th:text="${shop.name}"></td>
+                    <td id="priority" th:text="${shop.priority}"></td>
                 </tr>
                 </tbody>
             </table>

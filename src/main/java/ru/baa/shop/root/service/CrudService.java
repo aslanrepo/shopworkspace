@@ -1,8 +1,10 @@
 package ru.baa.shop.root.service;
 
-public interface CrudService<E> {
+public interface CrudService<E, K> {
 	E create(E e);
-	E read(Long id);
+	E read(K key);
 	E update(E e);
-	void delete(Long id);
+	void delete(K key);
+
+	boolean existsById(K key);
 }

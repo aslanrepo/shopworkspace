@@ -1,32 +1,25 @@
 package ru.baa.shop.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.baa.shop.model.Shop;
-import ru.baa.shop.root.repository.AbstractRepository;
+import ru.baa.shop.repository.ShopRepository;
 import ru.baa.shop.root.service.AbstractPageableService;
-import ru.baa.shop.root.service.PageableService;
 
-import java.time.LocalDateTime;
-import java.util.List;
+@Service
+public class ShopService extends AbstractPageableService<Shop, Long> {
 
-@Service("shopService")
-public class ShopService extends AbstractPageableService<Shop> implements PageableService<Shop> {
+	private final ShopRepository shopRepository;
 
 	@Autowired
-	protected ShopService(AbstractRepository<Shop> abstractRepository) {
-		super(abstractRepository);
+	protected ShopService(ShopRepository jpaRepository) {
+		super(jpaRepository);
+		shopRepository = jpaRepository;
 	}
 
 	@Override
-	public List<Shop> getAllByPage(Pageable pageable) {
-		return abstractRepository.findAll(pageable).getContent();
+	public void delete(Long key) {
+		throw new UnsupportedOperationException("Delete operation not supported");
 	}
 
-	@Override
-	public Shop create(Shop shop) {
-		shop.setCreationDate(LocalDateTime.now());
-		return super.create(shop);
-	}
 }

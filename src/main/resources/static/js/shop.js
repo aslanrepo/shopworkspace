@@ -1,13 +1,15 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
     //save shop
     $("#save").on('click', function () {
-        createRequest("POST", "#save");
+        let url = '/api/shop';
+        createRequest("POST", "#save", url);
     });
 
     //update shop
     $("#update").on('click', function () {
-        createRequest("PUT", "#update");
+        let url = '/api/shop/' + shopObject.id;
+        createRequest("PUT", "#update", url);
     });
 
     //get shop
@@ -17,6 +19,7 @@ $(document).ready(function() {
 
     //get shops by page
     $("#paginationButton").on('click', function () {
+        let paginationButton = $("#paginationButton");
         let page = parseInt($(this).attr('value'));
         let url = '/api/shop/page/' + page;
         $.ajax({
@@ -25,20 +28,18 @@ $(document).ready(function() {
             beforeSend: function () {
             },
             success: function (shop) {
-                drawShopTable(shop);
+                drawTable(shop, "#shopTable");
                 page = page + 1;
-                $("#paginationButton").attr('value', page);
-
+                paginationButton.attr('value', page);
             },
             error: function (e) {
-                $("#paginationButton").hide();
+                paginationButton.hide();
             }
         })
     });
 });
 
-function createRequest(method, button) {
-    let url = '/api/shop';
+function createRequest(method, button, url) {
     let shop = getShopObjectJSON();
     $.ajax({
         type: method,
@@ -57,13 +58,15 @@ function createRequest(method, button) {
     });
 }
 
-function drawShopTable(shops) {
-    let table = $("#shopTable").find("tbody");
+function drawTable(shops, tableName) {
+    let table = $(tableName).find("tbody");
+    let index = table.find('tr').length;
     for (let i = 0; i < shops.length; i++) {
         table.append(
-            '<tr href="shop/update/'+ shops[i].id +'">' +
-            '<td>'+ shops[i].name +'</td>' +
-            '<td>'+ shops[i].priority +'</td>' +
+            '<tr href="shop/update/' + shops[i].id + '">' +
+            '<td>' + ++index + '</td>' +
+            '<td>' + shops[i].name + '</td>' +
+            '<td>' + shops[i].priority + '</td>' +
             '</tr>'
         )
     }
@@ -90,6 +93,7 @@ function getShopObjectJSON() {
 function getValue(value) {
     return value === "" ? null : value;
 }
+
 function ifPropertyExists(obj, prop) {
     return obj.hasOwnProperty(prop) ? obj[prop] : null;
 }
@@ -98,11 +102,12 @@ function setUpdateMode(shop) {
 
     $("#save").attr('id', "update");
 
+
     $("#name").val(shop.name);
     $("#address").val(shop.address);
     $("#phoneNumber").val(shop.phoneNumber);
     $("#partner").val(shop.partner);
-    if(shop.haveCookRoom) {
+    if (shop.haveCookRoom) {
         $("#haveCookRoom").prop('checked', true);
     }
     $("#type").val(shop.type);

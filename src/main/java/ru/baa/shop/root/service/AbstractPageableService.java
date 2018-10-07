@@ -2,19 +2,20 @@ package ru.baa.shop.root.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import ru.baa.shop.root.repository.AbstractRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public abstract class AbstractPageableService<E> extends AbstractService<E> implements PageableService<E>{
+public abstract class AbstractPageableService<E, K> extends AbstractCrudService<E, K> {
 
-	protected AbstractPageableService(AbstractRepository<E> abstractRepository) {
-		super(abstractRepository);
+	protected AbstractPageableService(JpaRepository<E, K> jpaRepository) {
+		super(jpaRepository);
 	}
 
-	@Override
-	public List<E> getAllByPage(Pageable pageable) {
-		Page<E> page = abstractRepository.findAll(pageable);
+	public List<E> findAll(Pageable pageable) {
+		Page<E> page = jpaRepository.findAll(pageable);
 		return page.getContent();
 	}
+
+
 }

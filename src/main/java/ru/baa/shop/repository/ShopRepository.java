@@ -1,9 +1,7 @@
 package ru.baa.shop.repository;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import ru.baa.shop.model.Shop;
-import ru.baa.shop.root.repository.AbstractRepository;
 
-@Repository
-public interface ShopRepository extends AbstractRepository<Shop> {
+public interface ShopRepository extends JpaRepository<Shop, Long> {
 }

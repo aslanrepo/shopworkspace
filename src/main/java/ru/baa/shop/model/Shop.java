@@ -2,17 +2,14 @@ package ru.baa.shop.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import ru.baa.shop.root.model.AbstractEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
-public class Shop {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class Shop extends AbstractEntity {
 
 	@Column(nullable = false)
 	private String name;
@@ -28,6 +25,7 @@ public class Shop {
 	private String metro;
 	private int priority;
 	@Setter
+
 	private LocalDateTime creationDate;
 
 	@Lob
@@ -42,6 +40,7 @@ public class Shop {
 		this.priority = priority;
 	}
 
+	//TODO убрать хардкор
 	public enum Type {
 		NORMAL("Продуктовый"),
 		SUPERMARKET("Минимаркет");
