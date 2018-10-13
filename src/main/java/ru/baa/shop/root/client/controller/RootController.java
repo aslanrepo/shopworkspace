@@ -4,6 +4,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/home")
-public interface ViewController {
+public interface RootController {
 	String main(Model model);
 }

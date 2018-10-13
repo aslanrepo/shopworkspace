@@ -2,32 +2,31 @@ package ru.baa.shop.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import ru.baa.shop.root.model.AbstractEntity;
+import ru.baa.shop.root.model.CreationDateEntity;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
-public class Shop extends AbstractEntity {
+@Setter
+public class Shop extends CreationDateEntity {
 
 	@Column(nullable = false)
 	private String name;
-
 	@Column(nullable = false)
 	private String address;
 	private String phoneNumber;
 	private String partner;
 	private boolean haveCookRoom;
 
-	@Enumerated(EnumType.STRING)
-	private Shop.Type type;
+	@ManyToOne
+	@JoinTable(name = "shop_and_types",
+			joinColumns = {@JoinColumn(name = "shop_id")},
+			inverseJoinColumns = {@JoinColumn(name = "type_id")})
+	private ShopType type;
+	//TODO добавить сущности метро
 	private String metro;
 	private int priority;
-	@Setter
-
-	private LocalDateTime creationDate;
-
 	@Lob
 	private String comment;
 
@@ -38,21 +37,5 @@ public class Shop extends AbstractEntity {
 		this.name = name;
 		this.address = address;
 		this.priority = priority;
-	}
-
-	//TODO убрать хардкор
-	public enum Type {
-		NORMAL("Продуктовый"),
-		SUPERMARKET("Минимаркет");
-
-		String name;
-
-		Type(String name) {
-			this.name = name;
-		}
-
-		public String getName() {
-			return name;
-		}
 	}
 }

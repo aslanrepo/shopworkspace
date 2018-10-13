@@ -9,13 +9,13 @@ public abstract class AbstractCrudService<E, K> implements CrudService<E, K> {
 
 	final JpaRepository<E, K> jpaRepository;
 
-	AbstractCrudService(JpaRepository<E, K> jpaRepository) {
+	protected AbstractCrudService(JpaRepository<E, K> jpaRepository) {
 		this.jpaRepository = jpaRepository;
 	}
 
 	@Override
 	public E create(E e) {
-		return jpaRepository.save(e);
+		return jpaRepository.saveAndFlush(e);
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public abstract class AbstractCrudService<E, K> implements CrudService<E, K> {
 
 	@Override
 	public E update(E e) {
-		return jpaRepository.save(e);
+		return jpaRepository.saveAndFlush(e);
 	}
 
 	@Override

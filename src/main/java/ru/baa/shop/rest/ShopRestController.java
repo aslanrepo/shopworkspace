@@ -48,7 +48,7 @@ public class ShopRestController extends PageableRestController<Shop, Long> {
 
 	@Override
 	@GetMapping("/shop/page/{page}")
-	public ResponseEntity get(@PathVariable int page) {
-		return super.get(page);
+	public ResponseEntity getByPage(@PathVariable int page) {
+		return super.getByPage(page);
 	}
 }

@@ -30,7 +30,7 @@
                 <div class="form-group">
                     <label for="type">Тип</label>
                     <select class="form-control" id="type">
-                        <option th:each="shopType:${shopType}" th:text="${shopType.name}" th:value="${shopType}"></option>
+                        <option th:each="shopType:${shopTypes}" th:text="${shopType.name}" th:value="${shopType}"></option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -69,6 +69,7 @@
 <script th:inline="javascript" >
     /*<![CDATA[*/
         var shopObject = [[${shop}]];
+        var shopTypes = [[${shopTypes}]];
         if (shopObject !== null) {
             setUpdateMode(shopObject);
         } else {

@@ -17,7 +17,7 @@ public abstract class PageableRestController<E, K> extends AbstractRestControlle
 		this.entityConfig = entityConfig;
 	}
 
-	public ResponseEntity get(int page) {
+	public ResponseEntity getByPage(int page) {
 		 List<E> listOfEntity = abstractPageableService.findAll(entityConfig.getPageConfig(page));
 		 if (listOfEntity.isEmpty()) {
 		 	return ResponseEntity.notFound().build();

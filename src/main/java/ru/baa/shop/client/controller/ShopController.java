@@ -7,18 +7,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import ru.baa.shop.config.ShopConfig;
 import ru.baa.shop.model.Shop;
-import ru.baa.shop.root.client.controller.ViewController;
+import ru.baa.shop.root.client.controller.RootController;
 import ru.baa.shop.service.ShopService;
+import ru.baa.shop.service.ShopTypeService;
 
 @Controller
-public class ShopController implements ViewController {
+public class ShopController implements RootController {
 	private final ShopService shopService;
 	private final ShopConfig shopConfig;
+	private final ShopTypeService shopTypeService;
 
 	@Autowired
-	public ShopController(ShopService shopService, ShopConfig shopConfig) {
+	public ShopController(ShopService shopService, ShopConfig shopConfig, ShopTypeService shopTypeService) {
 		this.shopService = shopService;
 		this.shopConfig = shopConfig;
+		this.shopTypeService = shopTypeService;
 	}
 
 	@Override
@@ -28,17 +31,19 @@ public class ShopController implements ViewController {
 		return "shops";
 	}
 
+	//TODO не получает сущности по id после изменения отношений с ShopType
+
 	@GetMapping("/shop/update/{id}")
 	public String update(@PathVariable Long id, Model model) {
 		Shop shop = shopService.read(id);
 		model.addAttribute("shop", shop);
-		model.addAttribute("shopType", Shop.Type.values());
+		model.addAttribute("shopTypes", shopTypeService.findAll());
 		return "shop-operations";
 	}
 
 	@GetMapping("/shop/add")
 	public String add(Model model) {
-		model.addAttribute("shopType", Shop.Type.values());
+		model.addAttribute("shopTypes", shopTypeService.findAll());
 		return "shop-operations";
 	}
 }

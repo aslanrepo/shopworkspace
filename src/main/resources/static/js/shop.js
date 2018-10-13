@@ -74,6 +74,14 @@ function drawTable(shops, tableName) {
 
 function getShopObjectJSON() {
     let creationDate = ifPropertyExists(shopObject, 'creationDate');
+    let type;
+    for (const shopElement of shopTypes) {
+        if (shopElement.name === $("#type option:selected").text()) {
+            type = shopElement;
+            break;
+        }
+    }
+
     let shop = {
         id: ifPropertyExists(shopObject, 'id'),
         name: getValue($("#name").val()),
@@ -81,7 +89,7 @@ function getShopObjectJSON() {
         phoneNumber: getValue($("#phoneNumber").val()),
         partner: getValue($("#partner").val()),
         haveCookRoom: $("#haveCookRoom").is(":checked"),
-        type: getValue($("#type").val()),
+        type: type,
         metro: getValue($("#metro").val()),
         priority: getValue($("#priority").val()),
         comment: getValue($("#comment").val()),
@@ -102,7 +110,6 @@ function setUpdateMode(shop) {
 
     $("#save").attr('id', "update");
 
-
     $("#name").val(shop.name);
     $("#address").val(shop.address);
     $("#phoneNumber").val(shop.phoneNumber);
@@ -110,7 +117,7 @@ function setUpdateMode(shop) {
     if (shop.haveCookRoom) {
         $("#haveCookRoom").prop('checked', true);
     }
-    $("#type").val(shop.type);
+    $("#type").val(shop.type.name);
     $("#metro").val(shop.metro);
     $("#priority").val(shop.priority);
     $("#comment").val(shop.comment);

@@ -10,11 +10,13 @@ import ru.baa.shop.root.service.AbstractPageableService;
 public class ShopService extends AbstractPageableService<Shop, Long> {
 
 	private final ShopRepository shopRepository;
+	private final ShopTypeService shopTypeService;
 
 	@Autowired
-	protected ShopService(ShopRepository jpaRepository) {
+	protected ShopService(ShopRepository jpaRepository, ShopTypeService shopTypeService) {
 		super(jpaRepository);
 		shopRepository = jpaRepository;
+		this.shopTypeService = shopTypeService;
 	}
 
 	@Override
@@ -22,4 +24,13 @@ public class ShopService extends AbstractPageableService<Shop, Long> {
 		throw new UnsupportedOperationException("Delete operation not supported");
 	}
 
+	@Override
+	public Shop update(Shop shop) {
+		return super.update(shop);
+	}
+
+	@Override
+	public Shop create(Shop shop) {
+		return super.create(shop);
+	}
 }

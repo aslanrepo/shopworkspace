@@ -47,5 +47,4 @@ public abstract class AbstractRestController<E, K> implements RestController<E, 
 		return null;
 	}
 
-
 }

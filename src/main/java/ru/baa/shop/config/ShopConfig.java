@@ -20,7 +20,7 @@ public class ShopConfig implements EntityConfig {
 	@Value("#{${project.settings.shop.sort-by:{priority: 'desc', creationDate: 'desc'}}}")
 	private Map<String, String> sortBy;
 
-	@Value("#{${project.settings.pageSize:2}}")
+	@Value("#{${project.settings.pageSize:50}}")
 	private int pageSize;
 
 	public ShopConfig() {
@@ -31,11 +31,12 @@ public class ShopConfig implements EntityConfig {
 	public Pageable getPageConfig(int page) {
 		return PageRequest.of(page, pageSize, sort);
 	}
-//TODO баг пагинации
+
 	@PostConstruct
 	private void initProperties() {
 		for (Map.Entry<String, String> sortProp : sortBy.entrySet()) {
 			this.sort = sort.and(Sort.by(Sort.Direction.valueOf(sortProp.getValue().toUpperCase()), sortProp.getKey()));
 		}
+		this.sort = sort.and(Sort.by(Sort.Direction.ASC, "id"));
 	}
 }
