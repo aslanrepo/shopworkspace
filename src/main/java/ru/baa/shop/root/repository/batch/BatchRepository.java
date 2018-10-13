@@ -11,11 +11,10 @@ import java.util.Collection;
 /**
  * This repository is needed to execute batch operations
  *
- * @param <E> Entity
  */
 @Repository
 @Transactional
-public class BatchRepository<E> implements BatchOperations<E> {
+public class BatchRepository implements BatchOperations {
 	private final EntityManager em;
 
 	@Value("#{${project.settings.jpa.batch-size:100}}")
@@ -27,9 +26,9 @@ public class BatchRepository<E> implements BatchOperations<E> {
 	}
 
 	@Override
-	public void batchCreate(Collection<E> collection) {
+	public void batchCreate(Collection<?> collection) {
 		int count = 0;
-		for (E entity : collection) {
+		for (Object entity : collection) {
 			em.persist(entity);
 			if (batchSize == ++count) {
 				em.clear();
@@ -39,9 +38,9 @@ public class BatchRepository<E> implements BatchOperations<E> {
 	}
 
 	@Override
-	public void batchUpdate(Collection<E> collection) {
+	public void batchUpdate(Collection<?> collection) {
 		int count = 0;
-		for (E entity : collection) {
+		for (Object entity : collection) {
 			em.merge(entity);
 			if (batchSize == ++count) {
 				em.clear();

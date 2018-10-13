@@ -21,8 +21,8 @@ public class Shop extends CreationDateEntity {
 
 	@ManyToOne
 	@JoinTable(name = "shop_and_types",
-			joinColumns = {@JoinColumn(name = "shop_id")},
-			inverseJoinColumns = {@JoinColumn(name = "type_id")})
+			joinColumns = {@JoinColumn(name = "shop_id", referencedColumnName = "id")},
+			inverseJoinColumns = {@JoinColumn(name = "type_id", referencedColumnName = "id")})
 	private ShopType type;
 	//TODO добавить сущности метро
 	private String metro;
@@ -31,11 +31,5 @@ public class Shop extends CreationDateEntity {
 	private String comment;
 
 	public Shop() {
-	}
-
-	public Shop(String name, String address, int priority) {
-		this.name = name;
-		this.address = address;
-		this.priority = priority;
 	}
 }

@@ -1,4 +1,4 @@
-package ru.baa.shop.config;
+package ru.baa.shop.init;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ public class StartUp {
 	private final ShopTypeService shopTypeService;
 
 	@Autowired
-	public StartUp(BatchRepository<Shop> batchRepository, ShopTypeService shopTypeService) {
+	public StartUp(BatchRepository batchRepository, ShopTypeService shopTypeService) {
 		this.batchRepository = batchRepository;
 		this.shopTypeService = shopTypeService;
 	}
@@ -28,7 +28,10 @@ public class StartUp {
 	public void init() {
 		List<Shop> shops = new ArrayList<>();
 		for (int i = 1; i <= 150; i++) {
-			Shop shop = new Shop("Магазин тест " + i, "address", 3);
+			Shop shop = new Shop();
+			shop.setName("Shop name " + i);
+			shop.setPriority(3);
+			shop.setAddress("address" + i);
 			shop.setCreationDate(LocalDateTime.of(2017, (int)(Math.random() * 10 + 1), (int)(Math.random() * 25 + 1),(int)(Math.random() * 23 + 1),(int)(Math.random() * 59 + 1)));
 			shops.add(shop);
 		}

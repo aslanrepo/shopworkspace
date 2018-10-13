@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import ru.baa.shop.config.ShopConfig;
+import ru.baa.shop.client.config.ShopConfig;
 import ru.baa.shop.model.Shop;
 import ru.baa.shop.root.client.controller.RootController;
 import ru.baa.shop.service.ShopService;
@@ -30,8 +30,6 @@ public class ShopController implements RootController {
 		model.addAttribute("shops", shopService.findAll(shopConfig.getPageConfig(0)));
 		return "shops";
 	}
-
-	//TODO не получает сущности по id после изменения отношений с ShopType
 
 	@GetMapping("/shop/update/{id}")
 	public String update(@PathVariable Long id, Model model) {

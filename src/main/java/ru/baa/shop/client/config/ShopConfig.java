@@ -1,4 +1,4 @@
-package ru.baa.shop.config;
+package ru.baa.shop.client.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
