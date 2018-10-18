@@ -4,10 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.baa.shop.model.ShopType;
 
-//TODO доделать DTO
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 public class ShopDTO {
+	private Long id;
 	private String name;
 	private String address;
 	private String phoneNumber;
@@ -17,4 +19,5 @@ public class ShopDTO {
 	private String metro;
 	private int priority;
 	private String comment;
+	private LocalDateTime creationDate;
 }
