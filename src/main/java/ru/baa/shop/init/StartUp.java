@@ -2,44 +2,54 @@ package ru.baa.shop.init;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.baa.shop.model.Shop;
-import ru.baa.shop.model.ShopType;
-import ru.baa.shop.root.repository.batch.BatchRepository;
-import ru.baa.shop.service.ShopTypeService;
+import ru.baa.shop.model.Client;
+import ru.baa.shop.model.Feature;
+import ru.baa.shop.model.OmniChannel;
+import ru.baa.shop.repository.ClientRepository;
+import ru.baa.shop.repository.FeatureRepository;
+import ru.baa.shop.repository.OmniChannelRepository;
 
 import javax.annotation.PostConstruct;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.UUID;
 
 @Component
 public class StartUp {
 
-	private final BatchRepository batchRepository;
-	private final ShopTypeService shopTypeService;
+    private final ClientRepository clientRepository;
+    private final FeatureRepository featureRepository;
+    private final OmniChannelRepository omniChannelRepository;
 
-	@Autowired
-	public StartUp(BatchRepository batchRepository, ShopTypeService shopTypeService) {
-		this.batchRepository = batchRepository;
-		this.shopTypeService = shopTypeService;
-	}
+    @Autowired
+    public StartUp( ClientRepository clientRepository, FeatureRepository featureRepository, OmniChannelRepository omniChannelRepository) {
+        this.clientRepository = clientRepository;
+        this.featureRepository = featureRepository;
+        this.omniChannelRepository = omniChannelRepository;
+    }
 
-	@PostConstruct
-	public void init() {
-		List<Shop> shops = new ArrayList<>();
-		for (int i = 1; i <= 150; i++) {
-			Shop shop = new Shop();
-			shop.setName("Shop name " + i);
-			shop.setPriority(3);
-			shop.setAddress("address" + i);
-			shop.setCreationDate(LocalDateTime.of(2017, (int)(Math.random() * 10 + 1), (int)(Math.random() * 25 + 1),(int)(Math.random() * 23 + 1),(int)(Math.random() * 59 + 1)));
-			shops.add(shop);
-		}
-		List<ShopType> shopTypes = new ArrayList<>();
-		shopTypes.add(new ShopType("Продуктовый"));
-		shopTypes.add(new ShopType("Супермаркет"));
-		shopTypes.add(new ShopType("Электроника"));
-		batchRepository.batchCreate(shopTypes);
-		batchRepository.batchCreate(shops);
-	}
+    @PostConstruct
+    public void init() {
+        clientRepository.deleteAllInBatch();
+        featureRepository.deleteAllInBatch();
+        omniChannelRepository.deleteAllInBatch();
+        OmniChannel omniChannel = new OmniChannel("CH-MOB");
+        String clientId = UUID.randomUUID().toString();
+        String clientId2 = UUID.randomUUID().toString();
+        Client client = new Client(clientId);
+        Client client2 = new Client(clientId2);
+        clientRepository.saveAndFlush(client2);
+        Feature feature = new Feature("OMNI_2144", false, Arrays.asList(client), Arrays.asList(omniChannel));
+        Feature feature2 = new Feature("OMNI_5555", false);
+        featureRepository.saveAndFlush(feature);
+        featureRepository.saveAndFlush(feature2);
+
+        Feature entityFeature = featureRepository.findById("OMNI_2144").get();
+        Client oneClient = clientRepository.findById(clientId2).get();
+        System.out.println(oneClient.getId());
+        entityFeature.getClients().add(oneClient);
+
+        featureRepository.saveAndFlush(entityFeature);
+
+
+    }
 }
